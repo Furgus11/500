@@ -1,6 +1,5 @@
 
-<!-- saved from url=(0092)https://www.pythonanywhere.com/user/schnagl/files/home/schnagl/mysite/templates/player4.html -->
-<html style="background: green"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Player 4_files/jquery.min.js.download"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
     var player = "player4";
     var player_index = 3;
@@ -496,18 +495,18 @@
 
 </script>
 
-
+<html style="background: green">
 	<title>Player 4</title>
-	</head><body><div id="container">
-		<h2 id="playerName">
+	<div id="container">
+		<h2 id="playerName" >
 			Player 4
 		</h2>
-		<div id="scoreContainer">
+		<div id = "scoreContainer">
 			<div class="boxTitle">Score</div>
 			<div class="score">Team 1: <span id="score1"></span></div>
 			<div class="score">Team 2: <span id="score2"></span></div>
 		</div>
-		<div id="bidContainer">
+		<div id = "bidContainer">
 			<div class="boxTitle">Bid</div>
 			<div>Number: <span id="bidNumber"></span></div>
 			<div>Suit: <span id="bidSuit"></span></div>
@@ -576,7 +575,7 @@
     <div id="buttons">
         <button onclick="update_game()">Manually Update Game</button>
     </div>
-
+</html>
 <style type="text/css">
 	#container {
 		max-width: 1200px;
@@ -946,4 +945,4 @@
         }
     }
 
-</style></body></html>
+</style>

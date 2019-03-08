@@ -1,9 +1,8 @@
 
-<!-- saved from url=(0092)https://www.pythonanywhere.com/user/schnagl/files/home/schnagl/mysite/templates/player2.html -->
-<html style="background: green"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Player 2_files/jquery.min.js.download"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
-    var player = "player2";
-    var player_index = 1;
+    var player = "player3";
+    var player_index = 2;
     var allBids = [[6, "Spades"], [6, "Clubs"], [6, "Diamonds"], [6, "Hearts"], [6, "notrump"], [7, "Spades"], [7, "Clubs"], [7, "Diamonds"], [7, "Hearts"], [7, "notrump"], [7, "nullo"], [8, "Spades"], [8, "Clubs"], [8, "Diamonds"], [8, "Hearts"], [8, "notrump"], [8, "opennullo"], [9, "Spades"], [9, "Clubs"], [9, "Diamonds"], [9, "Hearts"], [9, "notrump"], [10, "Spades"], [10, "Clubs"], [10, "Diamonds"], [10, "Hearts"], [10, "notrump"]];
     var pause_interval = false;
 
@@ -496,18 +495,18 @@
 
 </script>
 
-
-	<title>Player 2</title>
-	</head><body><div id="container">
-		<h2 id="playerName">
-			Player 2
+<html style="background: green">
+	<title>Player 3</title>
+	<div id="container">
+		<h2 id="playerName" >
+			Player 3
 		</h2>
-		<div id="scoreContainer">
+		<div id = "scoreContainer">
 			<div class="boxTitle">Score</div>
 			<div class="score">Team 1: <span id="score1"></span></div>
 			<div class="score">Team 2: <span id="score2"></span></div>
 		</div>
-		<div id="bidContainer">
+		<div id = "bidContainer">
 			<div class="boxTitle">Bid</div>
 			<div>Number: <span id="bidNumber"></span></div>
 			<div>Suit: <span id="bidSuit"></span></div>
@@ -519,17 +518,17 @@
 			<div class="boxTitle"> Last Trick</div>
 			<div class="trickBox">
     			<div class="trickrow">
-    			    <label class="trickLabelTop">Player 4</label>
-    				<div id="trickBoxThree"></div>
+    			    <label class="trickLabelTop">Player 1</label>
+    				<div id="trickBoxZero"></div>
     			 </div>
     			<div class="trickrow">
-    			    <label class="trickLabel" id="leftTrickLabel">Player 3</label>
-    				<div id="trickBoxTwo"></div>
-    				<div id="trickBoxZero"></div>
-    				<label class="trickLabel" id="rightTrickLabel">Player 1</label>
+    			    <label class="trickLabel" id="leftTrickLabel">Player 4</label>
+    				<div id="trickBoxThree"></div>
+    				<div id="trickBoxOne"></div>
+    				<label class="trickLabel" id="rightTrickLabel">Player 2</label>
     			</div>
     			<div class="trickrow">
-    				<div id="trickBoxOne"></div>
+    				<div id="trickBoxTwo"></div>
     			</div>
     		</div>
 			<hr>
@@ -545,17 +544,17 @@
 			<div id="blindConainer"></div>
 			<div id="playingContainer">
 				<div class="trickrow">
-				    <label class="playLabelTop">Player 4</label>
-					<div id="playerBoxThree"></div>
+					<div id="playerBoxZero"></div>
+					<label class="playLabelTop">Player 1</label>
 				 </div>
 				<div class="trickrow">
-				     <label class="playLabel" id="leftPlayLabel">Player 3</label>
-					<div id="playerBoxTwo"></div>
-					<div id="playerBoxZero"></div>
-    				<label class="playLabel" id="rightPlayLabel">Player 1</label>
+				     <label class="playLabel" id="leftPlayLabel">Player 4</label>
+					<div id="playerBoxThree"></div>
+					<div id="playerBoxOne"></div>
+    				<label class="playLabel" id="rightPlayLabel">Player 2</label>
 				</div>
 				<div class="trickrow">
-					<div id="playerBoxOne"></div>
+					<div id="playerBoxTwo"></div>
 				</div>
 				<div id="openNulloContainer" class="trickrow">
 				    <label id="nulloLabel"></label>
@@ -573,10 +572,10 @@
 		</div>
 
 	</div>
-	<div id="buttons">
+    <div id="buttons">
         <button onclick="update_game()">Manually Update Game</button>
     </div>
-
+</html>
 <style type="text/css">
 	#container {
 		max-width: 1200px;
@@ -946,4 +945,4 @@
         }
     }
 
-</style></body></html>
+</style>

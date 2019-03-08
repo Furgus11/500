@@ -1,0 +1,16 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function newGame() {
+        console.log("newGame");
+        $.get("/api/newGame", {}, function(return_message) {
+            $("#returnMessage").html(return_message);
+        });
+    }
+</script>
+<html>
+    <div>
+        Admin Page
+    </div>
+    <button onclick="newGame()">Start new game</button>
+    <div id="returnMessage"></div>
+</html>

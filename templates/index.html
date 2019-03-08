@@ -1,1 +1,153 @@
-500 home page
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Drew's 500 Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+      /* Remove the navbar's default rounded borders and increase the bottom margin */
+      .navbar {
+        margin-bottom: 50px;
+        border-radius: 0;
+      }
+
+      /* Remove the jumbotron's default bottom margin */
+       .jumbotron {
+        margin-bottom: 10px;
+        padding: 0;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://i0.wp.com/bestcoverpix.com/wp-content/uploads/2013/09/feeling-flush-games-facebook-timeline-cover.jpg?ssl=1");
+        height: 260px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+      }
+
+      /* Add a gray background color and some padding to the footer */
+      footer {
+        background-color: #f2f2f2;
+        padding: 25px;
+      }
+      .jumbotron img {
+        width: 100%;
+        height: 100px;
+      }
+      .playlink {
+        text-align: center;
+        padding: 5px;
+        border: 1px dashed #333;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+      .team {
+        margin-bottom: 20px;
+        text-align: center;
+        text-decoration: underline;
+      }
+      a {
+        text-decoration: none !important;
+      }
+      ul {
+        padding-left: 8px !important;
+      }
+      #admin {
+          text-align: center;
+          margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+
+  <div class="jumbotron">
+
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Welcome</div>
+          <div class="panel-body">
+            Welcome to my 500 game, a web application developed so I can continue to play my favorite card game with my friends 500 miles away.<br><br>
+            To play, coordinate with the other players who will take each player position. Security measures have not been implemented, so yes, it is easy to cheat. Don't. <br><br>
+            This game is still under development. If a bug is found, please contact me using the form on the bottom of this page (that totally doesn't work right now).
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-success">
+          <div class="panel-heading">Play Now</div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-6"><div class="team">Team 1</div></div>
+              <div class="col-xs-6"><div class="team">Team 2</div></div>
+            </div>
+            <div class="row">
+              <a href="/player1.html"><div class="col-xs-6"><div class="playlink">Player 1</div></div></a>
+              <a href="/player2.html"><div class="col-xs-6"><div class="playlink">Player 2</div></div></a>
+            </div>
+            <div class="row">
+              <a href="/player3.html"><div class="col-xs-6"><div class="playlink">Player 3</div></div></a>
+              <a href="/player4.html"><div class="col-xs-6"><div class="playlink">Player 4</div></div></a>
+            </div>
+            <div class="row"><a href="/admin.html"><div id="admin">Admin page</div></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">House Rules</div>
+          <div class="panel-body">
+            <ul>
+              <li>A player may continue to bid until he/she has passed.</li>
+              <li>The blind contains 5 cards.</li>
+              <li>The previous trick will continue to be displayed until the next trick has concluded.</li>
+              <li>Nullo is worth 250. Open Nullo is worth 350.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <a href="/how_to_play_500.html">
+          <div class="panel panel-primary">
+            <div class="panel-heading">How to Play</div>
+            <div class="panel-body">Click here to view the 'how to play' tutorial</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-sm-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">AI</div>
+          <div class="panel-body">An AI for this game is currently under development. When it is finished, this will link to the documentation.</div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">Source Code</div>
+          <div class="panel-body">This game written in python and uses <a href="flask.pocoo.org">Flask</a>, a python microframework. It is being hosted on <a href="https://www.pythonanywhere.com">pythonanywhere.com</a>.<br><br> <a href="https://github.com/Furgus11/500">Click here to view the source code on github</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div><br><br>
+
+  <footer class="container-fluid text-center">
+    <p>Contact Drew</p>
+    <form class="form-inline">
+      <textarea rows="4" cols="50">
+
+      </textarea>
+      <button type="button" class="btn btn-danger">send</button>
+    </form>
+  </footer>
+
+  </body>
+</html>
+

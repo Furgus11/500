@@ -1,15 +1,36 @@
 var allBids = [[6, "Spades"], [6, "Clubs"], [6, "Diamonds"], [6, "Hearts"], [6, "notrump"], [7, "Spades"], [7, "Clubs"], [7, "Diamonds"], [7, "Hearts"], [7, "notrump"], [7, "nullo"], [8, "Spades"], [8, "Clubs"], [8, "Diamonds"], [8, "Hearts"], [8, "notrump"], [8, "opennullo"], [9, "Spades"], [9, "Clubs"], [9, "Diamonds"], [9, "Hearts"], [9, "notrump"], [10, "Spades"], [10, "Clubs"], [10, "Diamonds"], [10, "Hearts"], [10, "notrump"]];
 var pause_interval = false;
 
+$( document ).ready(function() {
+    set_names();
+
+    update_last_trick("","","","","","","","","","","");
+});
+
+function reload() {
+    location.reload();
+}
+
+function update_reload() {
+    $.get('/api/get_reload', {"player_index": player_index}, function(game_data) {
+        if (game_data.rload == "true") {
+            reload();
+        }
+    });
+}
+
 function update_game() {
     console.log("Getting Game");
+    update_chat();
     $.get('/api/get_game_for_player', {"player_index": player_index}, function(game_data) {
         update_scoreboard(game_data.score1, game_data.score2)
-        set_turn(game_data.turn, game_data.state);
+        set_turn(game_data.turn, game_data.state, game_data.player1_name, game_data.player2_name, game_data.player3_name, game_data.player4_name);
         update_current_bid(game_data.current_bid_suit, game_data.current_bid_number, game_data.current_bid_player);
         // update last trick
         if (game_data.last_trick != "tricks are empty") {
             update_last_trick(game_data.last_trick[0], game_data.last_trick[1], game_data.last_trick[2], game_data.last_trick[3], game_data.last_trick[4], game_data.last_trick[5], game_data.last_trick[6], game_data.last_trick[7], game_data.last_trick[8], game_data.team1_tricks, game_data.team2_tricks)
+        } else {
+             update_last_trick("","","","","","","","","","","");
         }
         if (game_data.state == 0){
             display_bidding_state(game_data);
@@ -24,10 +45,19 @@ function update_game() {
         else if (game_data.state == 3) {
             // end game
             if (game_data.score1 > game_data.score2) {
-                $("#turnDisplayer").html("<div id='gameover'>The game is over and Team 1 wins</div>");
+                if (player_index == 0 || player_index == 2) {
+                    $("#turnDisplayer").html("<div id='gameover'>You win because you are smarter than they are</div>");
+                } else {
+                    $("#turnDisplayer").html("<div id='gameover'>You lost because they got lucky</div>");
+                }
             } else {
-                $("#turnDisplayer").html("<div id='gameover'>The game is over and Team 2 wins</div>");
+                if (player_index == 1 || player_index == 3) {
+                    $("#turnDisplayer").html("<div id='gameover'>You win because you are smarter than they are</div>");
+                } else {
+                    $("#turnDisplayer").html("<div id='gameover'>You lost because they got lucky</div>");
+                }
             }
+            $("#openNulloContainer").css("display", "none");
         }
     });
 }
@@ -37,20 +67,25 @@ function display_playing_state(game_data) {
     $("#blindConainer").css("display", "none");
     $("#playingContainer").css("display", "block");
 
+
     // update playingContainer with cards that have been played
     update_playing_box(game_data.current_trick[0], game_data.current_trick[1], game_data.current_trick[2], game_data.current_trick[3], game_data.current_trick[4], game_data.current_trick[5], game_data.current_trick[6], game_data.current_trick[7])
 
     // if open nullo
     if (game_data.current_bid_suit === "opennullo" && game_data.current_bid_player_index != player_index) {
         display_open_nullo_cards(game_data);
+    } else {
+        $("#openNulloContainer").css("display", "none");
     }
 
     if (game_data.turn == player_index) {
         // update hand with cards containing button on playable cards
+        $("#html").css("background", "yellow");
         update_playable_hand(game_data);
         pause_interval = true;
     } else {
         // update hand with default cards
+        $("#html").css("background", "green");
         update_hand(game_data);
     }
 }
@@ -244,12 +279,14 @@ function display_bidding_state(game_data) {
     update_bid_table(game_data.bids);
     if (game_data.turn == player_index) {
         // get minBidIndex
+        $("#html").css("background", "yellow");
         minBidIndex = get_bid_index(game_data.current_bid_number, game_data.current_bid_suit, game_data.bids_this_round);
         display_bidding_form(minBidIndex + 1)
         pause_interval = true;
     } else {
         // hide biddding form
         $("#biddingFormContainer").html("");
+        $("#html").css("background", "green");
     }
 
 }
@@ -398,7 +435,7 @@ function update_playing_box(s0, v0, s1, v1, s2, v2, s3, v3) {
 	}
 }
 
-function set_turn(turn, state) {
+function set_turn(turn, state, n1, n2, n3, n4) {
     var state_string = "";
     if (state == 0) {
         state_string = " to bid"
@@ -408,13 +445,13 @@ function set_turn(turn, state) {
         state_string = " to play"
     }
 	if (turn == 0) {
-		$("#playersTurn").html("Player 1" + state_string);
+		$("#playersTurn").html(n1 + state_string);
 	} else if (turn == 1) {
-		$("#playersTurn").html("Player 2" + state_string);
+		$("#playersTurn").html(n2 + state_string);
 	} else if (turn == 2) {
-		$("#playersTurn").html("Player 3" + state_string);
+		$("#playersTurn").html(n3 + state_string);
 	} else if (turn == 3) {
-		$("#playersTurn").html("Player 4" + state_string);
+		$("#playersTurn").html(n4 + state_string);
 	}
 }
 
@@ -481,9 +518,64 @@ function get_bid_index(number, suit, bidPosition) {
     return ret;
 }
 
+function sendChat() {
+    var message = $("#inputer").val();
+    $("#inputer").val('');
+     $.get('/api/send_chat', {
+        "player_index": player_index,
+        "message": message,
+        "name": player
+    }, function(game_data) {
+       console.log(game_data);
+       update_chat();
+    });
+}
+
+function update_chat() {
+    $.get('/api/get_chat', {}, function(messages) {
+        $("#messageContainer").html('');
+        for (var i = 0; i < messages.messages.length; i+=2) {
+            append_message(messages.messages[i], messages.messages[i + 1]);
+        }
+    });
+}
+
+function append_message(message, sender) {
+    var mc = $("#messageContainer");
+    mc.append("<div class='message'><span class='sender'>" + sender + ": </span><span class='mstring'>" + message + "</span></div>")
+    mc.scrollTop(mc[0].scrollHeight);
+}
+
+function set_names() {
+    $.get('/api/get_names', {}, function (names) {
+       var n1 = names.player1_name;
+       var n2 = names.player2_name;
+       var n3 = names.player3_name;
+       var n4 = names.player4_name;
+       if (player_index == 0 && n1 != "" && n1.length != 0 && n1 != null ) {
+            player = n1;
+        } else if (player_index == 1 && n2 != "" && n2.length != 0 && n2 != null ) {
+            player = n2;
+        } else if (player_index == 2 && n3 != "" && n3.length != 0 && n3 != null ) {
+            player = n3;
+        } else if (player_index == 3 && n4 != "" && n4.length != 0 && n4 != null ) {
+            player = n4;
+        }
+        $(".p1").html(n1);
+        $(".p2").html(n2);
+        $(".p3").html(n3);
+        $(".p4").html(n4);
+        $(".t1s").html(n1 + ' & ' + n3 + ': <span id="score1"></span>');
+        $(".t2s").html(n2 + ' & ' + n4 + ': <span id="score2"></span>');
+        $(".t1t").html(n1 + ' & ' + n3 + ': <span id="t1Tricks"></span>');
+        $(".t2t").html(n2 + ' & ' + n4 + ': <span id="t2Tricks"></span>');
+    });
+}
+
 // setInterval(update_game(), 3000);
 setInterval(function() {
     if (!pause_interval) {
         update_game();
     }
+    update_reload();
 }, 1000);

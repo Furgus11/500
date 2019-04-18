@@ -3,13 +3,19 @@ import classes
 
 app = Flask(__name__)
 
-global_var = classes.Card("Hearts", "6")
-
 global_game = classes.Game()
+
+chat = classes.Chat()
+
+reloads = ["false", "false", "false", "false"]
+
+@app.route('/')
+def home_page():
+    return render_template('index.html')
 
 @app.route('/<string:page_name>/')
 def render_static(page_name):
-    return render_template('%s.html' % page_name)
+    return render_template('%s' % page_name)
 
 @app.route('/api/update_hand_with_blind', methods=['GET'])
 def update_hand_with_blind():
@@ -44,8 +50,34 @@ def play_card():
 @app.route('/api/get_game_for_player')
 def get_game_p1():
     player_index = int(request.args.get("player_index"))
-    return jsonify(current_trick = global_game.current_trick_to_array(), last_trick = global_game.last_trick_to_array(), team1_tricks = global_game.get_num_tricks(1), team2_tricks = global_game.get_num_tricks(2), playable_hand = global_game.hand_to_array(player_index, 1), blind = global_game.blind_to_array(), score1 = global_game.scoreboard.team1, score2 = global_game.scoreboard.team2, bids=global_game.bids_to_array(), turn=global_game.turn, state=global_game.state, current_bid_suit = global_game.current_bid.suit, current_bid_number = global_game.current_bid.number, current_bid_player = global_game.current_bid.bidder.name, current_bid_player_index = global_game.current_bid.bidder.index, bids_this_round = len(global_game.bids))
+    rl = "false"
+    global reloads
+    if reloads[player_index] == "true":
+        reloads[player_index] = "false"
+        rl = "true"
 
+    return jsonify(current_trick = global_game.current_trick_to_array(), last_trick = global_game.last_trick_to_array(), team1_tricks = global_game.get_num_tricks(1), team2_tricks = global_game.get_num_tricks(2), playable_hand = global_game.hand_to_array(player_index, 1), blind = global_game.blind_to_array(), score1 = global_game.scoreboard.team1, score2 = global_game.scoreboard.team2, bids=global_game.bids_to_array(), turn=global_game.turn, state=global_game.state, current_bid_suit = global_game.current_bid.suit, current_bid_number = global_game.current_bid.number, current_bid_player = global_game.current_bid.bidder.name, current_bid_player_index = global_game.current_bid.bidder.index, bids_this_round = len(global_game.bids), player1_name = global_game.players[0].name, player2_name = global_game.players[1].name, player3_name = global_game.players[2].name, player4_name = global_game.players[3].name, rload=rl)
+
+@app.route('/api/set_reload')
+def set_reload():
+    ri = int(request.args.get("index"))
+    global reloads
+    reloads[ri]  = "true"
+    return "set"
+
+@app.route('/api/get_names')
+def get_names():
+    return jsonify(player1_name = global_game.players[0].name, player2_name = global_game.players[1].name, player3_name = global_game.players[2].name, player4_name = global_game.players[3].name)
+
+@app.route('/api/get_reload')
+def get_reload():
+    player_index = int(request.args.get("player_index"))
+    rl = "false"
+    global reloads
+    if reloads[player_index] == "true":
+        reloads[player_index] = "false"
+        rl = "true"
+    return jsonify(rload=rl)
 
 @app.route('/api/add_bid')
 def add_bid():
@@ -66,6 +98,36 @@ def get_opennullo_hand():
 
 @app.route('/api/newGame', methods=['GET'])
 def reset_global_game():
+    names = []
+    names.append(request.args.get("name1"))
+    names.append(request.args.get("name2"))
+    names.append(request.args.get("name3"))
+    names.append(request.args.get("name4"))
     global global_game
     global_game = classes.Game()
+    global_game.set_player_names(names)
     return "a new game has started"
+
+@app.route('/api/send_chat')
+def send_chat():
+    message = request.args.get("message")
+    name = request.args.get("name")
+    global chat
+    chat.add(message, name)
+    return "Sent chat"
+
+@app.route('/api/get_chat')
+def get_chat():
+    return jsonify(messages = chat.get_messages())
+
+@app.route('/api/clear_chat')
+def clear_chat():
+    global chat
+    chat.clear()
+    return "chat cleared"
+
+@app.route('/api/new_hand')
+def new_hand():
+    global global_game
+    global_game.new_hand()
+    return "new hand"

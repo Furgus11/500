@@ -1,16 +1,98 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    function newGame() {
+    function newGame(name1, name2, name3, name4) {
         console.log("newGame");
-        $.get("/api/newGame", {}, function(return_message) {
-            $("#returnMessage").html(return_message);
+        $.get("/api/newGame", {
+        "name1": name1,
+        "name2": name2,
+        "name3": name3,
+        "name4": name4
+        }, function(return_message) {
+            $("#returnMessage0").html(return_message);
         });
     }
+    function grab_and_send_names() {
+        var name1 = $("#name1").val();
+        var name2 = $("#name2").val();
+        var name3 = $("#name3").val();
+        var name4 = $("#name4").val();
+        newGame(name1, name2, name3, name4);
+    }
+    function clearchat() {
+        console.log("Clearing chat");
+        $.get("/api/clear_chat"), {}, function(return_message) {
+            $("#returnMessage1").html(return_message);
+        }
+    }
+
+    function newhand() {
+        console.log("Forcing new hand");
+        $.get("/api/new_hand", {}, function(return_message) {
+            reload_all();
+            $("#returnMessage2").html(return_message);
+        });
+    }
+
+    function set_reload(i) {
+        console.log(i);
+        $.get("/api/set_reload", {
+            "index": i
+        }, function(return_message) {
+            $("#returnMessage3").html(return_message);
+        });
+    }
+    function reload_all() {
+        set_reload(0);
+        set_reload(1);
+        set_reload(2);
+        set_reload(3);
+    }
+
 </script>
 <html>
+    <title>Admin</title>
     <div>
         Admin Page
     </div>
-    <button onclick="newGame()">Start new game</button>
-    <div id="returnMessage"></div>
+    <br>
+    <span>Player 1 name:</span>
+    <input type="text" id="name1"></input>
+    <br>
+    <span>Player 2 name:</span>
+    <input type="text" id="name2"></input>
+    <br>
+    <span>Player 3 name:</span>
+    <input type="text" id="name3"></input>
+    <br>
+    <span>Player 4 name:</span>
+    <input type="text" id="name4"></input>
+    <br>
+    <button onclick="grab_and_send_names()">Start new game</button>
+    <div id="returnMessage0"></div>
+    <br>
+    <button onclick="newhand()">New Hand</button>
+    <div id="returnMessage2"></div>
+    <br>
+    <button onclick="clearchat()">Clear Chat</button>
+    <div id="returnMessage1"></div>
+    <br>
+    <button onclick="set_reload(0)">Reload P1</button>
+    <br>
+    <button onclick="set_reload(1)">Reload P2</button>
+    <br>
+    <button onclick="set_reload(2)">Reload P3</button>
+    <br>
+    <button onclick="set_reload(3)">Reload P4</button>
+    <br>
+    <button onclick="reload_all()">Reload All</button>
+    <div id="returnMessage3"></div>
 </html>
+<style>
+    span {
+        display: inline;
+    }
+    button, input[type=submit] {
+        padding: 5px;
+        margin: 10px;
+    }
+</style>

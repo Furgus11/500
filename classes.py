@@ -1,4 +1,17 @@
 from random import shuffle
+
+class Chat:
+    def __init__(self):
+        self.messages = []
+    def add(self, message, name):
+        self.messages.append(message)
+        self.messages.append(name)
+        return ["test"]
+    def clear(self):
+        self.messages = []
+    def get_messages(self):
+        return self.messages
+
 class Card:
 	def __init__(self, suit, value, can_play = 1):
 		if value == "Joker":
@@ -152,6 +165,9 @@ class Player:
 	def __str__(self):
 	    return self.name + " " + str(self.index)
 
+	def set_name(self, name):
+	    self.name = name
+
 
 class Game:
     def __init__(self):
@@ -184,6 +200,12 @@ class Game:
         self.team1LastHandTricks = -1
         self.team2LastHandTricks = -1
         # trick = [card1, card2, card3, card4, leadIndex]
+
+    def set_player_names(self, names):
+        self.player0.set_name(names[0])
+        self.player1.set_name(names[1])
+        self.player2.set_name(names[2])
+        self.player3.set_name(names[3])
 
     def current_trick_to_array(self):
         ret = []
@@ -502,6 +524,7 @@ class Game:
         for card in self.players[self.turn].hand:
             update_hand.append(Card(card.suit,card.value, 1))
         self.players[self.turn].hand = update_hand
+        self.hand_number += 1
 
 
     def get_index_of_winning_card(self, trick, lead, trump, opposite):

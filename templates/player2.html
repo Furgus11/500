@@ -6,16 +6,16 @@
 </script>
 <script type="text/javascript" src="/game.js"></script>
 
-<html style="background: green">
+<html id="html" style="background: green">
 	<title>Player 2</title>
 	<div id="container">
-		<h2 id="playerName" >
+		<h2 class="p2" id="playerName" >
 			Player 2
 		</h2>
 		<div id = "scoreContainer">
 			<div class="boxTitle">Score</div>
-			<div class="score">Team 1: <span id="score1"></span></div>
-			<div class="score">Team 2: <span id="score2"></span></div>
+			<div class="score t1s">Team 1: <span id="score1"></span></div>
+			<div class="score t2s">Team 2: <span id="score2"></span></div>
 		</div>
 		<div id = "bidContainer">
 			<div class="boxTitle">Bid</div>
@@ -29,22 +29,22 @@
 			<div class="boxTitle"> Last Trick</div>
 			<div class="trickBox">
     			<div class="trickrow">
-    			    <label class="trickLabelTop">Player 4</label>
+    			    <label class="trickLabelTop p4">Player 4</label>
     				<div id="trickBoxThree"></div>
     			 </div>
     			<div class="trickrow">
-    			    <label class="trickLabel" id="leftTrickLabel">Player 3</label>
+    			    <label class="trickLabel p3" id="leftTrickLabel">Player 3</label>
     				<div id="trickBoxTwo"></div>
     				<div id="trickBoxZero"></div>
-    				<label class="trickLabel" id="rightTrickLabel">Player 1</label>
+    				<label class="trickLabel p1" id="rightTrickLabel">Player 1</label>
     			</div>
     			<div class="trickrow">
     				<div id="trickBoxOne"></div>
     			</div>
     		</div>
 			<hr>
-			<div class="trickCount">Team 1: <span id="t1Tricks"></span></div>
-			<div class="trickCount">Team 2: <span id="t2Tricks"></span></div>
+			<div class="trickCount t1t">Team 1: <span id="t1Tricks"></span></div>
+			<div class="trickCount t2t">Team 2: <span id="t2Tricks"></span></div>
 		</div>
 		<div id="mainContainer">
 			<div id="turnDisplayer">Turn: <span id="playersTurn"></span></div>
@@ -55,14 +55,14 @@
 			<div id="blindConainer"></div>
 			<div id="playingContainer">
 				<div class="trickrow">
-				    <label class="playLabelTop">Player 4</label>
+				    <label class="playLabelTop p4">Player 4</label>
 					<div id="playerBoxThree"></div>
 				 </div>
 				<div class="trickrow">
-				     <label class="playLabel" id="leftPlayLabel">Player 3</label>
+				     <label class="playLabel p3" id="leftPlayLabel">Player 3</label>
 					<div id="playerBoxTwo"></div>
 					<div id="playerBoxZero"></div>
-    				<label class="playLabel" id="rightPlayLabel">Player 1</label>
+    				<label class="playLabel p1" id="rightPlayLabel">Player 1</label>
 				</div>
 				<div class="trickrow">
 					<div id="playerBoxOne"></div>
@@ -75,6 +75,11 @@
 		</div>
 		<div id="chatContainer">
 			<div class="boxTitle">Chat</div>
+			<div id="messageContainer"></div>
+			<div id="inputContainer">
+			    <input id="inputer" onkeypress="if (event.keyCode==13){sendChat()}" type="text"></input>
+			    <input id="chatButton" type="submit" onclick="sendChat()"></input>
+			</div>
 		</div>
 		<br>
 
